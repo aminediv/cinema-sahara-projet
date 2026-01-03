@@ -1,5 +1,4 @@
-import { motion } from "framer-motion";
-import { Gift, Ticket, Users, GraduationCap, PartyPopper, Briefcase, Star, ArrowRight, Sparkles } from "lucide-react";
+import { Gift, Ticket, Users, GraduationCap, PartyPopper, Briefcase, Star, ArrowRight } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { CinemaFooter } from "@/components/CinemaFooter";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -93,76 +92,17 @@ const Offers = () => {
         {/* Dark gradient background with red/gold accents */}
         <div className="absolute inset-0 bg-gradient-to-br from-black via-zinc-900 to-black" />
         
-        {/* Animated gradient orbs */}
-        <motion.div 
-          className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-[120px]"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{ duration: 5, repeat: Infinity }}
-        />
-        <motion.div 
-          className="absolute bottom-1/4 -right-32 w-80 h-80 bg-red-600/20 rounded-full blur-[100px]"
-          animate={{ 
-            scale: [1.2, 1, 1.2],
-            opacity: [0.4, 0.6, 0.4]
-          }}
-          transition={{ duration: 6, repeat: Infinity }}
-        />
-        <motion.div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-500/10 rounded-full blur-[150px]"
-          animate={{ 
-            scale: [1, 1.1, 1],
-          }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-
-        {/* Sparkle particles */}
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-primary/60 rounded-full"
-            style={{
-              left: `${10 + Math.random() * 80}%`,
-              top: `${10 + Math.random() * 80}%`
-            }}
-            animate={{
-              opacity: [0, 1, 0],
-              scale: [0, 1.5, 0]
-            }}
-            transition={{
-              duration: 2 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 3
-            }}
-          />
-        ))}
+        {/* Static gradient orbs */}
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/30 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-red-600/30 rounded-full blur-[100px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-500/15 rounded-full blur-[150px]" />
 
         {/* Content */}
         <div className="relative z-10 container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16">
             
             {/* Text Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-center lg:text-left max-w-xl"
-            >
-              {/* Eyebrow */}
-              <motion.div 
-                className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 border border-primary/30 rounded-full mb-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <Sparkles className="w-4 h-4 text-primary" />
-                <span className="text-primary text-sm font-medium">
-                  {language === 'en' ? 'Exclusive Deals' : 'Offres Exclusives'}
-                </span>
-              </motion.div>
-
+            <div className="text-center lg:text-left max-w-xl">
               {/* Main Title */}
               <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6">
                 <span className="block text-white drop-shadow-2xl">
@@ -186,70 +126,39 @@ const Offers = () => {
               </p>
 
               {/* Discount Badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-                className="inline-flex items-center gap-3"
-              >
+              <div className="inline-flex items-center gap-3">
                 <div className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-full font-bold text-lg shadow-lg shadow-red-600/30">
                   {language === 'en' ? 'UP TO' : "JUSQU'À"} <span className="text-2xl">30%</span> OFF
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
             {/* Popcorn Image */}
-            <motion.div
-              initial={{ opacity: 0, y: 50, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="relative"
-            >
+            <div className="relative">
               {/* Glow behind image */}
               <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-amber-500/20 to-transparent rounded-full blur-3xl scale-110" />
               
-              <motion.img
+              <img
                 src={popcornImage}
                 alt="Popcorn"
                 className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 object-contain drop-shadow-2xl"
-                animate={{ 
-                  y: [0, -15, 0],
-                }}
-                transition={{ 
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
               />
 
-              {/* Floating discount tags */}
-              <motion.div 
-                className="absolute -top-2 -right-2 md:top-4 md:right-0 px-4 py-2 bg-gradient-to-r from-primary to-amber-500 text-black font-bold rounded-full text-sm shadow-lg"
-                animate={{ rotate: [0, 5, 0, -5, 0] }}
-                transition={{ duration: 4, repeat: Infinity }}
-              >
+              {/* Discount tags */}
+              <div className="absolute -top-2 -right-2 md:top-4 md:right-0 px-4 py-2 bg-gradient-to-r from-primary to-amber-500 text-black font-bold rounded-full text-sm shadow-lg">
                 20% OFF
-              </motion.div>
+              </div>
               
-              <motion.div 
-                className="absolute bottom-16 -left-4 md:bottom-20 md:-left-8 px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-full text-sm shadow-lg"
-                animate={{ rotate: [0, -5, 0, 5, 0] }}
-                transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
-              >
+              <div className="absolute bottom-16 -left-4 md:bottom-20 md:-left-8 px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-full text-sm shadow-lg">
                 30% OFF
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           </div>
 
           {/* Brand tagline */}
-          <motion.p 
-            className="text-center mt-12 text-sm font-semibold text-primary/80 tracking-[0.3em] uppercase"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-          >
+          <p className="text-center mt-12 text-sm font-semibold text-primary/80 tracking-[0.3em] uppercase">
             Cinema Sahara
-          </motion.p>
+          </p>
         </div>
 
         {/* Bottom gradient fade */}
@@ -259,26 +168,17 @@ const Offers = () => {
       {/* Offers Grid Section */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-12 text-center"
-          >
+          <div className="mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               {language === 'en' ? 'Explore Our Offers' : 'Découvrez Nos Offres'}
             </h2>
             <div className="w-20 h-1 bg-primary rounded-full mx-auto" />
-          </motion.div>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {offers.map((offer, index) => (
-              <motion.div
+            {offers.map((offer) => (
+              <div
                 key={offer.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="group relative bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10"
               >
                 {/* Badge */}
@@ -323,7 +223,7 @@ const Offers = () => {
                     <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
                   </button>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -332,12 +232,7 @@ const Offers = () => {
       {/* CTA Section */}
       <section className="py-16 bg-gradient-to-r from-primary/10 via-primary/5 to-amber-500/10">
         <div className="container mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
+          <div>
             <Gift className="w-16 h-16 text-primary mx-auto mb-6" />
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               {language === 'en' ? 'Have Questions?' : 'Des Questions ?'}
@@ -354,7 +249,7 @@ const Offers = () => {
               {language === 'en' ? 'Contact Us' : 'Nous Contacter'}
               <ArrowRight className="w-5 h-5" />
             </Link>
-          </motion.div>
+          </div>
         </div>
       </section>
 
