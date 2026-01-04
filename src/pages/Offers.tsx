@@ -36,7 +36,7 @@ const offers: Offer[] = [
     titleFr: "Réduction Étudiant",
     descriptionEn: "Show your student ID and get 30% off on all movie tickets.",
     descriptionFr: "Présentez votre carte étudiant et obtenez 30% de réduction sur tous les billets.",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&h=300&fit=crop",
     icon: <GraduationCap className="w-6 h-6" />,
     discount: "30%"
   },
