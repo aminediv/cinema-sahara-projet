@@ -173,7 +173,7 @@ const Offers = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-muted/50">
+      <section className="py-16 bg-background">
         <div className="container mx-auto px-4 text-center">
           <div>
             <Gift className="w-16 h-16 text-primary mx-auto mb-6" />
