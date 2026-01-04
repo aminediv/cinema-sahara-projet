@@ -3,7 +3,8 @@ import { Navbar } from "@/components/Navbar";
 import { CinemaFooter } from "@/components/CinemaFooter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "react-router-dom";
-import popcornImage from "@/assets/popcorn-hero.png";
+import cinemaHeroImage from "@/assets/cinema-hero-clapperboard.png";
+import "@/index.css";
 
 interface Offer {
   id: string;
@@ -87,16 +88,8 @@ const Offers = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* Hero Section - Cinematic Dark Theme */}
-      <section className="relative min-h-[85vh] md:min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Dark gradient background with red/gold accents */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-zinc-900 to-black" />
-        
-        {/* Static gradient orbs */}
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/30 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-red-600/30 rounded-full blur-[100px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-500/15 rounded-full blur-[150px]" />
-
+      {/* Hero Section - Transparent Background */}
+      <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden pt-20">
         {/* Content */}
         <div className="relative z-10 container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16">
@@ -105,21 +98,16 @@ const Offers = () => {
             <div className="text-center lg:text-left max-w-xl">
               {/* Main Title */}
               <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6">
-                <span className="block text-white drop-shadow-2xl">
+                <span className="block text-foreground drop-shadow-lg">
                   {language === 'en' ? 'OUR' : 'NOS'}
                 </span>
-                <span 
-                  className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-amber-400 to-primary"
-                  style={{
-                    textShadow: '0 0 60px rgba(251, 191, 36, 0.5)'
-                  }}
-                >
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-red-500 to-primary">
                   {language === 'en' ? 'OFFERS' : 'OFFRES'}
                 </span>
               </h1>
 
               {/* Subtitle */}
-              <p className="text-lg md:text-xl text-zinc-400 mb-8 max-w-md mx-auto lg:mx-0">
+              <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-md mx-auto lg:mx-0">
                 {language === 'en' 
                   ? 'Discover incredible savings on tickets, snacks & exclusive cinema experiences' 
                   : 'Découvrez des économies incroyables sur les billets, snacks et expériences cinéma exclusives'}
@@ -133,25 +121,13 @@ const Offers = () => {
               </div>
             </div>
 
-            {/* Popcorn Image */}
+            {/* Cinema Hero Image */}
             <div className="relative">
-              {/* Glow behind image */}
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/30 via-amber-500/20 to-transparent rounded-full blur-3xl scale-110" />
-              
               <img
-                src={popcornImage}
-                alt="Popcorn"
-                className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 object-contain drop-shadow-2xl"
+                src={cinemaHeroImage}
+                alt="Cinema"
+                className="relative w-80 h-auto sm:w-96 md:w-[500px] lg:w-[550px] object-contain drop-shadow-xl"
               />
-
-              {/* Discount tags */}
-              <div className="absolute -top-2 -right-2 md:top-4 md:right-0 px-4 py-2 bg-gradient-to-r from-primary to-amber-500 text-black font-bold rounded-full text-sm shadow-lg">
-                20% OFF
-              </div>
-              
-              <div className="absolute bottom-16 -left-4 md:bottom-20 md:-left-8 px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold rounded-full text-sm shadow-lg">
-                30% OFF
-              </div>
             </div>
           </div>
 
@@ -160,9 +136,6 @@ const Offers = () => {
             Cinema Sahara
           </p>
         </div>
-
-        {/* Bottom gradient fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
       </section>
 
       {/* Offers Grid Section */}
