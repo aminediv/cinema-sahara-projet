@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import cinemaHeroImage from "@/assets/cinema-hero-clapperboard.png";
 import studentCinemaImage from "@/assets/student-cinema-discount.jpg";
 import "@/index.css";
-
 interface Offer {
   id: string;
   titleEn: string;
@@ -18,75 +17,66 @@ interface Offer {
   badge?: string;
   discount?: string;
 }
-
-const offers: Offer[] = [
-  {
-    id: "family-pack",
-    titleEn: "Family Pack",
-    titleFr: "Pack Famille",
-    descriptionEn: "Special discounts for families. 4 tickets + popcorn combo at reduced price.",
-    descriptionFr: "Réductions spéciales pour les familles. 4 billets + combo popcorn à prix réduit.",
-    image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&h=300&fit=crop",
-    icon: <Users className="w-6 h-6" />,
-    badge: "Popular",
-    discount: "25%"
-  },
-  {
-    id: "student-discount",
-    titleEn: "Student Discount",
-    titleFr: "Réduction Étudiant",
-    descriptionEn: "Show your student ID and get 30% off on all movie tickets.",
-    descriptionFr: "Présentez votre carte étudiant et obtenez 30% de réduction sur tous les billets.",
-    image: studentCinemaImage,
-    icon: <GraduationCap className="w-6 h-6" />,
-    discount: "30%"
-  },
-  {
-    id: "birthday-party",
-    titleEn: "Birthday Party",
-    titleFr: "Fête d'Anniversaire",
-    descriptionEn: "Celebrate your special day at Cinema Sahara with exclusive party packages.",
-    descriptionFr: "Célébrez votre jour spécial au Cinéma Sahara avec des forfaits fête exclusifs.",
-    image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&h=300&fit=crop",
-    icon: <PartyPopper className="w-6 h-6" />,
-    badge: "New"
-  },
-  {
-    id: "corporate-events",
-    titleEn: "Corporate Events",
-    titleFr: "Événements Entreprise",
-    descriptionEn: "Private screenings and corporate packages for your business events.",
-    descriptionFr: "Projections privées et forfaits entreprise pour vos événements professionnels.",
-    image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=300&fit=crop",
-    icon: <Briefcase className="w-6 h-6" />
-  },
-  {
-    id: "loyalty-card",
-    titleEn: "5-Ticket Card",
-    titleFr: "Carte 5 Places",
-    descriptionEn: "Buy 5 tickets in advance and save 20% on each ticket.",
-    descriptionFr: "Achetez 5 billets à l'avance et économisez 20% sur chaque billet.",
-    image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=300&fit=crop",
-    icon: <Ticket className="w-6 h-6" />,
-    badge: "Best Value",
-    discount: "20%"
-  },
-  {
-    id: "vip-experience",
-    titleEn: "VIP Experience",
-    titleFr: "Expérience VIP",
-    descriptionEn: "Premium seating, exclusive lounge access, and complimentary refreshments.",
-    descriptionFr: "Places premium, accès au salon exclusif et rafraîchissements offerts.",
-    image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=400&h=300&fit=crop",
-    icon: <Star className="w-6 h-6" />
-  }
-];
-
+const offers: Offer[] = [{
+  id: "family-pack",
+  titleEn: "Family Pack",
+  titleFr: "Pack Famille",
+  descriptionEn: "Special discounts for families. 4 tickets + popcorn combo at reduced price.",
+  descriptionFr: "Réductions spéciales pour les familles. 4 billets + combo popcorn à prix réduit.",
+  image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&h=300&fit=crop",
+  icon: <Users className="w-6 h-6" />,
+  badge: "Popular",
+  discount: "25%"
+}, {
+  id: "student-discount",
+  titleEn: "Student Discount",
+  titleFr: "Réduction Étudiant",
+  descriptionEn: "Show your student ID and get 30% off on all movie tickets.",
+  descriptionFr: "Présentez votre carte étudiant et obtenez 30% de réduction sur tous les billets.",
+  image: studentCinemaImage,
+  icon: <GraduationCap className="w-6 h-6" />,
+  discount: "30%"
+}, {
+  id: "birthday-party",
+  titleEn: "Birthday Party",
+  titleFr: "Fête d'Anniversaire",
+  descriptionEn: "Celebrate your special day at Cinema Sahara with exclusive party packages.",
+  descriptionFr: "Célébrez votre jour spécial au Cinéma Sahara avec des forfaits fête exclusifs.",
+  image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&h=300&fit=crop",
+  icon: <PartyPopper className="w-6 h-6" />,
+  badge: "New"
+}, {
+  id: "corporate-events",
+  titleEn: "Corporate Events",
+  titleFr: "Événements Entreprise",
+  descriptionEn: "Private screenings and corporate packages for your business events.",
+  descriptionFr: "Projections privées et forfaits entreprise pour vos événements professionnels.",
+  image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=400&h=300&fit=crop",
+  icon: <Briefcase className="w-6 h-6" />
+}, {
+  id: "loyalty-card",
+  titleEn: "5-Ticket Card",
+  titleFr: "Carte 5 Places",
+  descriptionEn: "Buy 5 tickets in advance and save 20% on each ticket.",
+  descriptionFr: "Achetez 5 billets à l'avance et économisez 20% sur chaque billet.",
+  image: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=300&fit=crop",
+  icon: <Ticket className="w-6 h-6" />,
+  badge: "Best Value",
+  discount: "20%"
+}, {
+  id: "vip-experience",
+  titleEn: "VIP Experience",
+  titleFr: "Expérience VIP",
+  descriptionEn: "Premium seating, exclusive lounge access, and complimentary refreshments.",
+  descriptionFr: "Places premium, accès au salon exclusif et rafraîchissements offerts.",
+  image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=400&h=300&fit=crop",
+  icon: <Star className="w-6 h-6" />
+}];
 const Offers = () => {
-  const { language } = useLanguage();
-
-  return (
-    <div className="min-h-screen bg-background">
+  const {
+    language
+  } = useLanguage();
+  return <div className="min-h-screen bg-background">
       <Navbar />
 
       {/* Hero Section - Transparent Background */}
@@ -109,9 +99,7 @@ const Offers = () => {
 
               {/* Subtitle */}
               <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-md mx-auto lg:mx-0">
-                {language === 'en' 
-                  ? 'Discover incredible savings on tickets, snacks & exclusive cinema experiences' 
-                  : 'Découvrez des économies incroyables sur les billets, snacks et expériences cinéma exclusives'}
+                {language === 'en' ? 'Discover incredible savings on tickets, snacks & exclusive cinema experiences' : 'Découvrez des économies incroyables sur les billets, snacks et expériences cinéma exclusives'}
               </p>
 
               {/* Discount Badge */}
@@ -124,18 +112,12 @@ const Offers = () => {
 
             {/* Cinema Hero Image */}
             <div className="relative">
-              <img
-                src={cinemaHeroImage}
-                alt="Cinema"
-                className="relative w-80 h-auto sm:w-96 md:w-[500px] lg:w-[550px] object-contain drop-shadow-xl"
-              />
+              <img src={cinemaHeroImage} alt="Cinema" className="relative w-80 h-auto sm:w-96 md:w-[500px] lg:w-[550px] object-contain drop-shadow-xl" />
             </div>
           </div>
 
           {/* Brand tagline */}
-          <p className="text-center mt-12 text-sm font-semibold text-primary/80 tracking-[0.3em] uppercase">
-            Cinema Sahara
-          </p>
+          
         </div>
       </section>
 
@@ -150,32 +132,20 @@ const Offers = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {offers.map((offer) => (
-              <div
-                key={offer.id}
-                className="group relative bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10"
-              >
+            {offers.map(offer => <div key={offer.id} className="group relative bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10">
                 {/* Badge */}
-                {offer.badge && (
-                  <div className="absolute top-4 right-4 z-20 px-3 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full">
+                {offer.badge && <div className="absolute top-4 right-4 z-20 px-3 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full">
                     {offer.badge}
-                  </div>
-                )}
+                  </div>}
 
                 {/* Discount Badge */}
-                {offer.discount && (
-                  <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-red-600 text-white text-sm font-bold rounded-full">
+                {offer.discount && <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-red-600 text-white text-sm font-bold rounded-full">
                     {offer.discount} OFF
-                  </div>
-                )}
+                  </div>}
 
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={offer.image}
-                    alt={language === 'en' ? offer.titleEn : offer.titleFr}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+                  <img src={offer.image} alt={language === 'en' ? offer.titleEn : offer.titleFr} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                   <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
 
                   {/* Icon overlay */}
@@ -197,8 +167,7 @@ const Offers = () => {
                     <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
                   </button>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
@@ -212,14 +181,9 @@ const Offers = () => {
               {language === 'en' ? 'Have Questions?' : 'Des Questions ?'}
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto mb-8">
-              {language === 'en'
-                ? 'Contact us to learn more about our offers and how to get the best cinema experience.'
-                : 'Contactez-nous pour en savoir plus sur nos offres et comment obtenir la meilleure expérience cinéma.'}
+              {language === 'en' ? 'Contact us to learn more about our offers and how to get the best cinema experience.' : 'Contactez-nous pour en savoir plus sur nos offres et comment obtenir la meilleure expérience cinéma.'}
             </p>
-            <Link
-              to="/help"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary/90 transition-colors"
-            >
+            <Link to="/help" className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary/90 transition-colors">
               {language === 'en' ? 'Contact Us' : 'Nous Contacter'}
               <ArrowRight className="w-5 h-5" />
             </Link>
@@ -228,8 +192,6 @@ const Offers = () => {
       </section>
 
       <CinemaFooter />
-    </div>
-  );
+    </div>;
 };
-
 export default Offers;
