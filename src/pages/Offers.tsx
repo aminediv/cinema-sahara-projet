@@ -5,6 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "react-router-dom";
 import cinemaHeroImage from "@/assets/cinema-hero-clapperboard.png";
 import studentCinemaImage from "@/assets/student-cinema-discount.jpg";
+import popcornImage from "@/assets/popcorn-transparent.png";
 import "@/index.css";
 
 interface Offer {
@@ -91,6 +92,12 @@ const Offers = () => {
 
       {/* Hero Section - Transparent Background */}
       <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden pt-20">
+        {/* Background Popcorn Image */}
+        <img 
+          src={popcornImage} 
+          alt="" 
+          className="absolute right-0 top-1/2 -translate-y-1/2 w-64 md:w-80 lg:w-96 opacity-20 pointer-events-none"
+        />
         {/* Content */}
         <div className="relative z-10 container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16">
@@ -102,7 +109,7 @@ const Offers = () => {
                 <span className="block text-foreground drop-shadow-lg">
                   {language === 'en' ? 'OUR' : 'NOS'}
                 </span>
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-red-500 to-primary">
+                <span className="block text-red-600 drop-shadow-lg">
                   {language === 'en' ? 'OFFERS' : 'OFFRES'}
                 </span>
               </h1>
