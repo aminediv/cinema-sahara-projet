@@ -7,6 +7,7 @@ import HelpCenter from "./pages/HelpCenter.tsx";
 import Auth from "./pages/Auth.tsx";
 import MyBookings from "./pages/MyBookings.tsx";
 import Offers from "./pages/Offers.tsx";
+import { ScrollToTop } from "./components/ScrollToTop.tsx";
 import "./index.css";
 import { LanguageProvider } from "./contexts/LanguageContext.tsx";
 import { AuthProvider } from "./contexts/AuthContext.tsx";
@@ -18,6 +19,7 @@ createRoot(document.getElementById("root")!).render(
     <AuthProvider>
       <LanguageProvider>
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/help" element={<HelpCenter />} />
