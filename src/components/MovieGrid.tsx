@@ -94,14 +94,16 @@ export function MovieGrid({ title, movies, showSeeAll = true, showBookButton = t
                   
                   {/* Hover Overlay with Book Now Button - only for currently showing */}
                   {showBookButton && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-                      <button
-                        onClick={() => handleOpenModal(movie)}
-                        className="w-full py-2 rounded-lg bg-gray-200 hover:bg-gray-100 text-primary-foreground text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
-                      >
-                        <Ticket className="w-4 h-4" />
-                        {t('movies.bookNow')}
-                      </button>
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute bottom-3 left-3 right-3">
+                        <button
+                          onClick={() => handleOpenModal(movie)}
+                          className="w-full py-2 rounded-lg bg-gray-200 hover:bg-gray-100 text-primary-foreground text-xs font-semibold flex items-center justify-center gap-2 transition-colors"
+                        >
+                          <Ticket className="w-4 h-4" />
+                          {t('movies.bookNow')}
+                        </button>
+                      </div>
                     </div>
                   )}
 
