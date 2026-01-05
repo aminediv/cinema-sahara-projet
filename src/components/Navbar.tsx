@@ -106,35 +106,26 @@ export function Navbar() {
               ? location.pathname === '/offers'
               : link.sectionId === activeSection && location.pathname === '/';
             
-            const isExternalLink = link.href.startsWith('/#') || link.href === '/';
-            
-            if (isExternalLink) {
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className={`text-sm font-medium transition-colors relative ${
-                    isActive
-                      ? 'text-sahara-gold' 
-                      : 'text-foreground hover:text-sahara-gold'
-                  }`}
-                >
-                  {link.name}
-                  {isActive && (
-                    <motion.span
-                      layoutId="activeNav"
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                </a>
-              );
-            }
+            const handleClick = (e: React.MouseEvent) => {
+              if (link.href.startsWith('/#')) {
+                e.preventDefault();
+                const sectionId = link.href.replace('/#', '');
+                if (location.pathname !== '/') {
+                  navigate('/');
+                  setTimeout(() => {
+                    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                } else {
+                  document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+                }
+              }
+            };
             
             return (
               <Link
                 key={link.name}
-                to={link.href}
+                to={link.href.startsWith('/#') ? '/' : link.href}
+                onClick={handleClick}
                 className={`text-sm font-medium transition-colors relative ${
                   isActive
                     ? 'text-sahara-gold' 
@@ -241,19 +232,39 @@ export function Navbar() {
             className="md:hidden bg-card mt-2 mx-4 rounded-xl overflow-hidden border border-border"
           >
             <nav className="flex flex-col p-4">
-              {navLinks.map((link, index) => (
-                <motion.a
-                  key={link.name}
-                  href={link.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-foreground py-3 px-4 hover:bg-primary/20 hover:text-primary rounded-lg transition-colors font-medium"
-                >
-                  {link.name}
-                </motion.a>
-              ))}
+              {navLinks.map((link, index) => {
+                const handleMobileClick = () => {
+                  setIsMobileMenuOpen(false);
+                  if (link.href.startsWith('/#')) {
+                    const sectionId = link.href.replace('/#', '');
+                    if (location.pathname !== '/') {
+                      navigate('/');
+                      setTimeout(() => {
+                        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+                      }, 100);
+                    } else {
+                      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                };
+                
+                return (
+                  <motion.div
+                    key={link.name}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Link
+                      to={link.href.startsWith('/#') ? '/' : link.href}
+                      onClick={handleMobileClick}
+                      className="block text-foreground py-3 px-4 hover:bg-primary/20 hover:text-primary rounded-lg transition-colors font-medium"
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                );
+              })}
             </nav>
           </motion.div>
         )}
