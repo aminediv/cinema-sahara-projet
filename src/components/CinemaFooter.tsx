@@ -66,12 +66,12 @@ export function CinemaFooter() {
   };
   return <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {/* Brand & Location */}
-          <div className="col-span-2 md:col-span-1">
+          <div className="col-span-2 sm:col-span-2 md:col-span-1">
             {/* Logo */}
-            <div className="mb-6 -ml-12 md:-ml-16 -mt-12 md:-mt-16">
-              <img src={saharaLogo} alt="Sahara Cinema" className="h-52 md:h-64 w-auto object-contain" />
+            <div className="mb-4 sm:mb-6 -ml-8 sm:-ml-12 md:-ml-16 -mt-8 sm:-mt-12 md:-mt-16">
+              <img src={saharaLogo} alt="Sahara Cinema" className="h-40 sm:h-52 md:h-64 w-auto object-contain" />
             </div>
             {/* Location Link */}
             
