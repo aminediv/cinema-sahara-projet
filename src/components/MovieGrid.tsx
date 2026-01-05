@@ -74,7 +74,7 @@ export function MovieGrid({ title, movies, showSeeAll = true, showBookButton = t
           </div>
 
           {/* Movie Grid */}
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
             {movies.map((movie, index) => (
               <motion.div
                 key={movie.id}
@@ -129,7 +129,7 @@ export function MovieGrid({ title, movies, showSeeAll = true, showBookButton = t
                 </div>
 
                 {/* Title */}
-                <h3 className="mt-3 text-sm font-medium text-foreground/90 line-clamp-1 group-hover:text-foreground transition-colors">
+                <h3 className="mt-2 sm:mt-3 text-xs sm:text-sm font-medium text-foreground/90 line-clamp-2 sm:line-clamp-1 group-hover:text-foreground transition-colors">
                   {movie.title}
                 </h3>
               </motion.div>

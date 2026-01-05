@@ -46,38 +46,38 @@ export function CinemaHero() {
       </div>
 
       {/* Content */}
-      <div className="relative container mx-auto px-4 min-h-[80vh] flex items-center pt-32 md:pt-40 pb-24">
-        <div className="max-w-3xl space-y-8 -ml-4 mt-8 md:mt-12">
+      <div className="relative container mx-auto px-4 min-h-[80vh] flex items-center pt-24 sm:pt-32 md:pt-40 pb-24">
+        <div className="max-w-3xl space-y-6 sm:space-y-8 ml-0 sm:-ml-4 mt-8 md:mt-12">
           {/* Movie Logo */}
           <div>
             <img 
               src={movieLogo} 
               alt="Mission: Impossible - Dead Reckoning Part Two" 
-              className="w-full max-w-[380px] md:max-w-[500px] lg:max-w-[550px] drop-shadow-2xl"
+              className="w-full max-w-[280px] sm:max-w-[380px] md:max-w-[500px] lg:max-w-[550px] drop-shadow-2xl"
             />
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-4 mt-24">
+          <div className="flex items-center gap-3 sm:gap-4 mt-16 sm:mt-24">
             <button 
               onClick={() => setIsModalOpen(true)}
-              className="group flex items-center gap-3 px-8 py-4 bg-gray-200 text-primary-foreground font-bold text-sm uppercase tracking-wider rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-gray-200/30 hover:shadow-2xl"
+              className="group flex items-center gap-2 sm:gap-3 px-5 sm:px-8 py-3 sm:py-4 bg-gray-200 text-primary-foreground font-bold text-xs sm:text-sm uppercase tracking-wider rounded-full hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-gray-200/30 hover:shadow-2xl"
             >
-              <Ticket className="w-5 h-5 transition-transform group-hover:scale-110" />
+              <Ticket className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:scale-110" />
               {t('hero.bookNow')}
             </button>
-            <button className="w-12 h-12 rounded-full bg-background/20 backdrop-blur-sm border border-border/30 flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300">
-              <Plus className="w-5 h-5" />
+            <button className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-background/20 backdrop-blur-sm border border-border/30 flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300">
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
 
           {/* Available Formats */}
-          <div className="flex items-center gap-5 mt-4">
-            <span className="text-foreground/70 text-sm font-medium tracking-wide uppercase">{t('hero.availableIn')}</span>
+          <div className="flex items-center gap-3 sm:gap-5 mt-4 flex-wrap">
+            <span className="text-foreground/70 text-xs sm:text-sm font-medium tracking-wide uppercase">{t('hero.availableIn')}</span>
             {/* 4DX Logo */}
-            <img src={fourDxLogo} alt="4DX" className="h-8 object-contain" />
+            <img src={fourDxLogo} alt="4DX" className="h-6 sm:h-8 object-contain" />
             {/* IMAX Logo */}
-            <img src={imaxLogo} alt="IMAX" className="h-20 object-contain mt-2" />
+            <img src={imaxLogo} alt="IMAX" className="h-14 sm:h-20 object-contain mt-1 sm:mt-2" />
           </div>
         </div>
       </div>

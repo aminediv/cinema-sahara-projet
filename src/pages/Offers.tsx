@@ -80,15 +80,15 @@ const Offers = () => {
       <Navbar />
 
       {/* Hero Section - Transparent Background */}
-      <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden pt-20">
+      <section className="relative min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden pt-24 sm:pt-20">
         {/* Content */}
         <div className="relative z-10 container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16">
+          <div className="flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-8 lg:gap-16">
             
             {/* Text Content */}
             <div className="text-center lg:text-left max-w-xl">
               {/* Main Title */}
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight mb-4 sm:mb-6">
                 <span className="block text-foreground drop-shadow-lg">
                   {language === 'en' ? 'OUR' : 'NOS'}
                 </span>
@@ -98,21 +98,21 @@ const Offers = () => {
               </h1>
 
               {/* Subtitle */}
-              <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-md mx-auto lg:mx-0">
+              <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-md mx-auto lg:mx-0 px-4 sm:px-0">
                 {language === 'en' ? 'Discover incredible savings on tickets, snacks & exclusive cinema experiences' : 'Découvrez des économies incroyables sur les billets, snacks et expériences cinéma exclusives'}
               </p>
 
               {/* Discount Badge */}
               <div className="inline-flex items-center gap-3">
-                <div className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-full font-bold text-lg shadow-lg shadow-red-600/30">
-                  {language === 'en' ? 'UP TO' : "JUSQU'À"} <span className="text-2xl">30%</span> OFF
+                <div className="px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-red-600 to-red-500 text-white rounded-full font-bold text-sm sm:text-lg shadow-lg shadow-red-600/30">
+                  {language === 'en' ? 'UP TO' : "JUSQU'À"} <span className="text-xl sm:text-2xl">30%</span> OFF
                 </div>
               </div>
             </div>
 
             {/* Cinema Hero Image */}
-            <div className="relative">
-              <img src={cinemaHeroImage} alt="Cinema" className="relative w-80 h-auto sm:w-96 md:w-[500px] lg:w-[550px] object-contain drop-shadow-xl" />
+            <div className="relative mt-6 lg:mt-0">
+              <img src={cinemaHeroImage} alt="Cinema" className="relative w-56 sm:w-80 md:w-96 lg:w-[500px] xl:w-[550px] h-auto object-contain drop-shadow-xl" />
             </div>
           </div>
 
@@ -131,7 +131,7 @@ const Offers = () => {
             <div className="w-20 h-1 bg-primary rounded-full mx-auto" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {offers.map(offer => <div key={offer.id} className="group relative bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10">
                 {/* Badge */}
                 {offer.badge && <div className="absolute top-4 right-4 z-20 px-3 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full">

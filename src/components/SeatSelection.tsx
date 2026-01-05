@@ -164,35 +164,35 @@ export function SeatSelection({ isOpen, onClose, movieTitle, showtime, date }: S
           </motion.button>
         </div>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Screen */}
-          <div className="relative mb-12">
-            <div className="w-full h-2 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full mb-2" />
-            <div className="w-3/4 mx-auto h-8 bg-gradient-to-b from-primary/20 to-transparent rounded-t-full" />
-            <p className="text-center text-white/40 text-sm font-medium tracking-widest">SCREEN</p>
+          <div className="relative mb-8 sm:mb-12">
+            <div className="w-full h-1.5 sm:h-2 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full mb-2" />
+            <div className="w-3/4 mx-auto h-6 sm:h-8 bg-gradient-to-b from-primary/20 to-transparent rounded-t-full" />
+            <p className="text-center text-white/40 text-xs sm:text-sm font-medium tracking-widest">SCREEN</p>
           </div>
 
           {/* Seats Grid */}
-          <div className="flex flex-col items-center gap-2 mb-8">
+          <div className="flex flex-col items-center gap-1 sm:gap-2 mb-6 sm:mb-8 overflow-x-auto w-full">
             {seats.map((row, rowIndex) => (
-              <div key={rowIndex} className="flex items-center gap-2">
+              <div key={rowIndex} className="flex items-center gap-1 sm:gap-2 min-w-max">
                 {/* Row Label */}
-                <span className="w-6 text-center text-white/40 text-sm font-medium">
+                <span className="w-4 sm:w-6 text-center text-white/40 text-xs sm:text-sm font-medium flex-shrink-0">
                   {row[0]?.row}
                 </span>
                 
                 {/* Seats */}
-                <div className="flex gap-1 md:gap-2">
+                <div className="flex gap-0.5 sm:gap-1 md:gap-2">
                   {row.map((seat, seatIndex) => {
                     // Add aisle gap
                     const hasGapBefore = seatIndex === Math.floor(row.length / 2);
                     
                     return (
-                      <div key={seat.id} className={`flex ${hasGapBefore ? 'ml-4 md:ml-8' : ''}`}>
+                      <div key={seat.id} className={`flex ${hasGapBefore ? 'ml-2 sm:ml-4 md:ml-8' : ''}`}>
                         <motion.button
                           onClick={() => handleSeatClick(seat)}
                           disabled={seat.status === 'occupied'}
-                          className={`w-6 h-6 md:w-8 md:h-8 rounded-t-lg border text-xs font-bold transition-all ${getSeatColor(seat)}`}
+                          className={`w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 rounded-t-lg border text-[10px] sm:text-xs font-bold transition-all ${getSeatColor(seat)}`}
                           whileHover={seat.status !== 'occupied' ? { scale: 1.15 } : {}}
                           whileTap={seat.status !== 'occupied' ? { scale: 0.95 } : {}}
                         >
@@ -204,7 +204,7 @@ export function SeatSelection({ isOpen, onClose, movieTitle, showtime, date }: S
                 </div>
                 
                 {/* Row Label */}
-                <span className="w-6 text-center text-white/40 text-sm font-medium">
+                <span className="w-4 sm:w-6 text-center text-white/40 text-xs sm:text-sm font-medium flex-shrink-0">
                   {row[0]?.row}
                 </span>
               </div>
@@ -212,21 +212,21 @@ export function SeatSelection({ isOpen, onClose, movieTitle, showtime, date }: S
           </div>
 
           {/* Legend */}
-          <div className="flex flex-wrap justify-center gap-6 mb-8 text-sm">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-t-lg bg-white/10 border border-white/10" />
-              <span className="text-white/60">Available (80 MAD)</span>
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mb-6 sm:mb-8 text-xs sm:text-sm">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-t-lg bg-white/10 border border-white/10" />
+              <span className="text-white/60">Available</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-t-lg bg-amber-500/20 border border-amber-500/30" />
-              <span className="text-white/60">VIP (120 MAD)</span>
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-t-lg bg-amber-500/20 border border-amber-500/30" />
+              <span className="text-white/60">VIP</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-t-lg bg-white" />
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-t-lg bg-white" />
               <span className="text-white/60">Selected</span>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-t-lg bg-white/5" />
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-t-lg bg-white/5" />
               <span className="text-white/60">Occupied</span>
             </div>
           </div>
