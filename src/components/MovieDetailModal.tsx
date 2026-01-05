@@ -98,16 +98,14 @@ export function MovieDetailModal({
           
           {/* Play Trailer Button */}
           {movie.trailerUrl && (
-            <motion.a 
+            <a 
               href={movie.trailerUrl} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md flex items-center justify-center transition-all border border-white/30 z-10" 
-              whileHover={{ scale: 1.1 }} 
-              whileTap={{ scale: 0.95 }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md flex items-center justify-center transition-colors border border-white/30 z-10"
             >
               <Play className="w-7 h-7 text-white fill-white ml-0.5" />
-            </motion.a>
+            </a>
           )}
         </div>
 
