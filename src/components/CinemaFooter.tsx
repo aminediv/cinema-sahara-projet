@@ -1,23 +1,15 @@
-import { Facebook, Twitter, Instagram, Youtube, MapPin } from 'lucide-react';
+import { Facebook, Instagram } from 'lucide-react';
 import saharaLogo from '@/assets/cinema-sahara-logo.png';
 import { useLanguage } from '@/contexts/LanguageContext';
 const CINEMA_LOCATION_URL = 'https://maps.app.goo.gl/KaUPLViHH4ww7SBB9';
 const socialLinks = [{
   icon: Facebook,
-  href: '#',
+  href: 'https://www.facebook.com/p/Cin%C3%A9-club-Nour-Eddine-Sa%C3%AFl-100067500992086/',
   label: 'Facebook'
 }, {
-  icon: Twitter,
-  href: '#',
-  label: 'Twitter'
-}, {
   icon: Instagram,
-  href: '#',
+  href: 'https://www.instagram.com/ccns_agadir',
   label: 'Instagram'
-}, {
-  icon: Youtube,
-  href: '#',
-  label: 'YouTube'
 }];
 export function CinemaFooter() {
   const {
