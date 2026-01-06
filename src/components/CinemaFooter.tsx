@@ -1,4 +1,4 @@
-import { Facebook, Instagram } from 'lucide-react';
+import { Facebook, Instagram, Mail, Phone } from 'lucide-react';
 import saharaLogo from '@/assets/cinema-sahara-logo.png';
 import { useLanguage } from '@/contexts/LanguageContext';
 const CINEMA_LOCATION_URL = 'https://maps.app.goo.gl/KaUPLViHH4ww7SBB9';
@@ -108,11 +108,17 @@ export function CinemaFooter() {
 
         {/* Social Links & Copyright */}
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-          {/* Social Links */}
-          <div className="flex gap-3">
-            {socialLinks.map(social => <a key={social.label} href={social.href} aria-label={social.label} className="w-10 h-10 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-colors text-muted-foreground">
+          {/* Social & Contact Links */}
+          <div className="flex flex-wrap items-center gap-3">
+            {socialLinks.map(social => <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} className="w-10 h-10 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-colors text-muted-foreground">
                 <social.icon className="w-5 h-5" />
               </a>)}
+            <a href="mailto:bakrim2020@gmail.com" aria-label="Email" className="w-10 h-10 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-colors text-muted-foreground">
+              <Mail className="w-5 h-5" />
+            </a>
+            <a href="https://wa.me/212661382684" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="w-10 h-10 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-colors text-muted-foreground">
+              <Phone className="w-5 h-5" />
+            </a>
           </div>
 
           {/* Copyright */}
