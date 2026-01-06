@@ -113,7 +113,7 @@ export function CinemaFooter() {
             {socialLinks.map(social => <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} className="w-10 h-10 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-colors text-muted-foreground">
                 <social.icon className="w-5 h-5" />
               </a>)}
-            <a href="mailto:bakrim2020@gmail.com" aria-label="Email" className="w-10 h-10 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-colors text-muted-foreground">
+            <a href="https://mail.google.com/mail/?view=cm&to=bakrim2020@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email" className="w-10 h-10 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-colors text-muted-foreground">
               <Mail className="w-5 h-5" />
             </a>
             <a href="https://wa.me/212661382684" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="w-10 h-10 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-colors text-muted-foreground">
