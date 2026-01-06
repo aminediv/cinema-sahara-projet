@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Menu, X, User, ChevronDown, LogOut, Ticket } from 'lucide-react';
-import saharaLogo from '@/assets/cinema-sahara-logo.png';
+
 import { SearchModal } from './SearchModal';
 import { MovieDetailModal, MovieDetails } from './MovieDetailModal';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -85,18 +85,8 @@ export function Navbar() {
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className={`flex items-center transition-all duration-300 ${
-          isScrolled ? '-ml-2 md:-ml-4 -mt-1' : '-ml-4 md:-ml-8 -mt-2 md:-mt-3'
-        }`}>
-          <img 
-            src={saharaLogo} 
-            alt="Sahara Cinema" 
-            className={`w-auto object-contain transition-[height] duration-300 ${
-              isScrolled 
-                ? 'h-14 md:h-16 lg:h-20' 
-                : 'h-24 md:h-32 lg:h-36'
-            }`}
-          />
+        <Link to="/" className="flex items-center">
+          <span className="text-xl md:text-2xl font-bold text-foreground">CCNS</span>
         </Link>
 
         {/* Center: Navigation */}
