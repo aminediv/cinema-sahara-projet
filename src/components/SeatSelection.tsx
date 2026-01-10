@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { X, Armchair } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, ChevronLeft, Play } from 'lucide-react';
 import { BookingConfirmation } from './BookingConfirmation';
 import { BookingSuccess } from './BookingSuccess';
 import { useAuth } from '@/contexts/AuthContext';
@@ -12,8 +12,9 @@ export interface Seat {
   id: string;
   row: string;
   number: number;
-  status: 'available' | 'selected' | 'occupied' | 'vip';
+  status: 'available' | 'selected' | 'occupied' | 'vip' | 'lovebox';
   price: number;
+  isLoveBox?: boolean;
 }
 
 interface SeatSelectionProps {
@@ -22,42 +23,101 @@ interface SeatSelectionProps {
   movieTitle: string;
   showtime: string;
   date: string;
+  moviePoster?: string;
+  movieRating?: string;
+  movieDuration?: string;
+  movieDescription?: string;
+  theatreName?: string;
 }
 
 const generateSeats = (): Seat[][] => {
-  const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-  const seatsPerRow = [8, 10, 10, 12, 12, 12, 10, 10];
+  const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+  const seatsPerRow = [14, 14, 16, 16, 16, 16, 16, 16, 14, 12];
   
   return rows.map((row, rowIndex) => {
     const seats: Seat[] = [];
     const count = seatsPerRow[rowIndex];
-    const isVipRow = rowIndex >= 4 && rowIndex <= 5;
+    const isVipRow = rowIndex <= 1; // A and B are VIP rows
+    const isLoveBoxRow = rowIndex >= 3 && rowIndex <= 4; // D and E have love boxes in center
     
     for (let i = 1; i <= count; i++) {
       // Randomly mark some seats as occupied
-      const isOccupied = Math.random() < 0.25;
+      const isOccupied = Math.random() < 0.2;
+      const isCenterSeat = i >= Math.floor(count / 2) - 2 && i <= Math.floor(count / 2) + 2;
+      const isLoveBox = isLoveBoxRow && isCenterSeat && i % 2 === 0;
+      
+      let status: Seat['status'] = 'available';
+      let price = 80;
+      
+      if (isOccupied) {
+        status = 'occupied';
+      } else if (isVipRow) {
+        status = 'vip';
+        price = 150;
+      } else if (isLoveBox) {
+        status = 'lovebox';
+        price = 200;
+      }
       
       seats.push({
         id: `${row}${i}`,
         row,
         number: i,
-        status: isOccupied ? 'occupied' : (isVipRow ? 'vip' : 'available'),
-        price: isVipRow ? 120 : 80
+        status,
+        price,
+        isLoveBox,
       });
     }
     return seats;
   });
 };
 
-export function SeatSelection({ isOpen, onClose, movieTitle, showtime, date }: SeatSelectionProps) {
+export function SeatSelection({ 
+  isOpen, 
+  onClose, 
+  movieTitle, 
+  showtime, 
+  date,
+  moviePoster,
+  movieRating = "8.1",
+  movieDuration = "1h 55min",
+  movieDescription = "Experience the ultimate cinema adventure with premium seating and immersive audio.",
+  theatreName = "Sahara Cinema"
+}: SeatSelectionProps) {
   const [seats] = useState<Seat[][]>(generateSeats);
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [confirmationNumber, setConfirmationNumber] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes countdown
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Countdown timer
+  useEffect(() => {
+    if (!isOpen || timeLeft <= 0) return;
+    
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          toast.error('Session expired. Please try again.');
+          onClose();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    
+    return () => clearInterval(timer);
+  }, [isOpen, timeLeft, onClose]);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
   
   const generateConfirmationNumber = () => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -79,15 +139,30 @@ export function SeatSelection({ isOpen, onClose, movieTitle, showtime, date }: S
     }
   };
 
-  const getSeatColor = (seat: Seat) => {
+  const getSeatStyle = (seat: Seat) => {
     const isSelected = selectedSeats.find(s => s.id === seat.id);
-    if (isSelected) return 'bg-white text-black shadow-lg shadow-white/30';
-    if (seat.status === 'occupied') return 'bg-white/10 text-white/20 cursor-not-allowed';
-    if (seat.status === 'vip') return 'bg-amber-500/20 text-amber-400 hover:bg-amber-500/40 border-amber-500/30';
-    return 'bg-white/10 text-white/60 hover:bg-white/20 border-white/10';
+    
+    if (isSelected) {
+      return 'bg-blue-500 border-blue-600 shadow-lg shadow-blue-500/30';
+    }
+    if (seat.status === 'occupied') {
+      return 'bg-gray-300 border-gray-400 cursor-not-allowed opacity-50';
+    }
+    if (seat.status === 'vip') {
+      return 'bg-gradient-to-b from-gray-600 to-gray-700 border-gray-500 hover:from-gray-500 hover:to-gray-600 cursor-pointer';
+    }
+    if (seat.status === 'lovebox') {
+      return 'bg-gradient-to-b from-gray-700 to-gray-800 border-gray-600 hover:from-gray-600 hover:to-gray-700 cursor-pointer rounded-lg';
+    }
+    return 'bg-gray-400 border-gray-500 hover:bg-gray-300 cursor-pointer';
   };
 
   const totalPrice = selectedSeats.reduce((sum, seat) => sum + seat.price, 0);
+  
+  // Group selected seats by type
+  const regularSeats = selectedSeats.filter(s => s.status !== 'vip' && s.status !== 'lovebox');
+  const vipSeats = selectedSeats.filter(s => s.status === 'vip');
+  const loveBoxSeats = selectedSeats.filter(s => s.status === 'lovebox');
 
   const saveBooking = async (bookingCode: string) => {
     if (!user) return;
@@ -102,7 +177,7 @@ export function SeatSelection({ isOpen, onClose, movieTitle, showtime, date }: S
           show_date: date,
           show_time: showtime,
           selected_seats: selectedSeats.map(s => s.id),
-          total_price: totalPrice + Math.round(totalPrice * 0.05), // Including service fee
+          total_price: totalPrice,
           booking_code: bookingCode,
         });
 
@@ -132,152 +207,308 @@ export function SeatSelection({ isOpen, onClose, movieTitle, showtime, date }: S
   if (!isOpen) return null;
 
   return (
-    <motion.div 
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={onClose} />
-      
-      {/* Content */}
+    <AnimatePresence>
       <motion.div 
-        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-b from-zinc-900 to-black rounded-2xl border border-white/10 shadow-2xl"
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: 'spring', duration: 0.5 }}
+        className="fixed inset-0 z-[100] bg-white overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
       >
-        {/* Header */}
-        <div className="sticky top-0 z-10 bg-zinc-900/95 backdrop-blur-sm border-b border-white/10 p-4 flex items-center justify-between">
-          <div>
-            <h2 className="text-xl font-bold text-white">{movieTitle}</h2>
-            <p className="text-sm text-white/60">{date} • {showtime}</p>
-          </div>
-          <motion.button 
-            onClick={onClose}
-            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <X className="w-5 h-5" />
-          </motion.button>
-        </div>
+        {/* Background Image */}
+        {moviePoster && (
+          <div 
+            className="absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `url(${moviePoster})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        )}
+        
+        <div className="relative h-full flex flex-col">
+          {/* Header */}
+          <header className="flex items-center justify-between px-4 sm:px-8 py-4 border-b border-gray-200">
+            <button 
+              onClick={onClose}
+              className="flex items-center gap-2 text-gray-800 hover:text-gray-600 transition-colors"
+            >
+              <ChevronLeft className="w-5 h-5" />
+              <span className="font-medium">BACK</span>
+            </button>
+            
+            {/* Progress Steps */}
+            <div className="hidden sm:flex items-center gap-8">
+              <div className="flex items-center gap-2 text-gray-400">
+                <span className="text-sm">01 Overview</span>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="w-12 h-1 bg-red-500 rounded-full mb-1" />
+                <span className="text-sm font-semibold text-gray-800">02 Seats</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-400">
+                <span className="text-sm">03 Cart</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-400">
+                <span className="text-sm">04 Payment</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-400">
+                <span className="text-sm">05 Finish</span>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <span className="text-gray-700 hidden sm:block">Hi, Guest</span>
+              <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                <span className="text-gray-500 text-sm">?</span>
+              </div>
+            </div>
+          </header>
 
-        <div className="p-4 sm:p-6">
-          {/* Screen */}
-          <div className="relative mb-8 sm:mb-12">
-            <div className="w-full h-1.5 sm:h-2 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full mb-2" />
-            <div className="w-3/4 mx-auto h-6 sm:h-8 bg-gradient-to-b from-primary/20 to-transparent rounded-t-full" />
-            <p className="text-center text-white/40 text-xs sm:text-sm font-medium tracking-widest">SCREEN</p>
-          </div>
-
-          {/* Seats Grid */}
-          <div className="flex flex-col items-center gap-1 sm:gap-2 mb-6 sm:mb-8 overflow-x-auto w-full">
-            {seats.map((row, rowIndex) => (
-              <div key={rowIndex} className="flex items-center gap-1 sm:gap-2 min-w-max">
-                {/* Row Label */}
-                <span className="w-4 sm:w-6 text-center text-white/40 text-xs sm:text-sm font-medium flex-shrink-0">
-                  {row[0]?.row}
-                </span>
-                
-                {/* Seats */}
-                <div className="flex gap-0.5 sm:gap-1 md:gap-2">
-                  {row.map((seat, seatIndex) => {
-                    // Add aisle gap
-                    const hasGapBefore = seatIndex === Math.floor(row.length / 2);
-                    
-                    return (
-                      <div key={seat.id} className={`flex ${hasGapBefore ? 'ml-2 sm:ml-4 md:ml-8' : ''}`}>
-                        <motion.button
-                          onClick={() => handleSeatClick(seat)}
-                          disabled={seat.status === 'occupied'}
-                          className={`w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 rounded-t-lg border text-[10px] sm:text-xs font-bold transition-all ${getSeatColor(seat)}`}
-                          whileHover={seat.status !== 'occupied' ? { scale: 1.15 } : {}}
-                          whileTap={seat.status !== 'occupied' ? { scale: 0.95 } : {}}
-                        >
-                          {seat.number}
-                        </motion.button>
-                      </div>
-                    );
-                  })}
+          {/* Main Content */}
+          <div className="flex-1 flex overflow-hidden">
+            {/* Left Side - Seat Selection */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-8">
+              {/* Movie Info */}
+              <div className="mb-6">
+                <div className="flex items-center gap-4 mb-2">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{movieTitle}</h1>
+                  <span className="px-2 py-1 bg-yellow-400 text-yellow-900 text-xs font-bold rounded">IMDb {movieRating}</span>
+                  <span className="text-gray-500 text-sm">⏱ {movieDuration}</span>
+                </div>
+                <p className="text-gray-500 text-sm max-w-xl">{movieDescription}</p>
+              </div>
+              
+              {/* Show Info */}
+              <div className="flex flex-wrap items-center gap-8 mb-6 text-sm">
+                <div>
+                  <p className="text-gray-400">Theatre</p>
+                  <p className="font-semibold text-gray-800">{theatreName}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Date</p>
+                  <p className="font-semibold text-gray-800">{date}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400">Show time</p>
+                  <p className="font-semibold text-gray-800">{showtime}</p>
                 </div>
                 
-                {/* Row Label */}
-                <span className="w-4 sm:w-6 text-center text-white/40 text-xs sm:text-sm font-medium flex-shrink-0">
-                  {row[0]?.row}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Legend */}
-          <div className="flex flex-wrap justify-center gap-3 sm:gap-6 mb-6 sm:mb-8 text-xs sm:text-sm">
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-t-lg bg-white/10 border border-white/10" />
-              <span className="text-white/60">Available</span>
-            </div>
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-t-lg bg-amber-500/20 border border-amber-500/30" />
-              <span className="text-white/60">VIP</span>
-            </div>
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-t-lg bg-white" />
-              <span className="text-white/60">Selected</span>
-            </div>
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-t-lg bg-white/5" />
-              <span className="text-white/60">Occupied</span>
-            </div>
-          </div>
-
-          {/* Selected Seats Summary */}
-          {selectedSeats.length > 0 && (
-            <motion.div 
-              className="bg-white/5 rounded-xl p-4 border border-white/10 mb-6"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <div className="flex flex-wrap items-center justify-between gap-4">
-                <div>
-                  <p className="text-white/60 text-sm mb-1">Selected Seats</p>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedSeats.map(seat => (
-                      <span 
-                        key={seat.id} 
-                        className="px-3 py-1 rounded-lg bg-white/20 text-white text-sm font-semibold"
-                      >
-                        {seat.id}
-                      </span>
-                    ))}
+                {/* Legend */}
+                <div className="flex items-center gap-4 ml-auto">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-gray-400 border border-gray-500 rounded-sm" />
+                    <span className="text-gray-600 text-xs">Available</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-gray-300 border border-gray-400 rounded-sm opacity-50" />
+                    <span className="text-gray-600 text-xs">Booked</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-gray-200 border border-gray-300 rounded-sm" />
+                    <span className="text-gray-600 text-xs">Sold out</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-blue-500 border border-blue-600 rounded-sm" />
+                    <span className="text-gray-600 text-xs">Selected</span>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-white/60 text-sm">Total</p>
-                  <p className="text-2xl font-bold text-white">{totalPrice} MAD</p>
+              </div>
+
+              {/* Screen */}
+              <div className="relative mb-8">
+                <svg viewBox="0 0 400 30" className="w-full max-w-2xl mx-auto">
+                  <path
+                    d="M 10 25 Q 200 0 390 25"
+                    fill="none"
+                    stroke="#ef4444"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                <p className="text-center text-gray-400 text-sm tracking-[0.3em] mt-2">SCREEN</p>
+              </div>
+
+              {/* Seats Grid */}
+              <div className="flex flex-col items-center gap-1 mb-8 overflow-x-auto">
+                {seats.map((row, rowIndex) => (
+                  <div key={rowIndex} className="flex items-center gap-1 min-w-max">
+                    {/* Row Label Left */}
+                    <span className="w-6 text-center text-gray-400 text-sm font-medium">
+                      {row[0]?.row}
+                    </span>
+                    
+                    {/* Seats */}
+                    <div className="flex gap-0.5">
+                      {row.map((seat, seatIndex) => {
+                        // Add aisle gap
+                        const hasGapBefore = seatIndex === Math.floor(row.length / 2);
+                        
+                        return (
+                          <div key={seat.id} className={`flex ${hasGapBefore ? 'ml-4' : ''}`}>
+                            <motion.button
+                              onClick={() => handleSeatClick(seat)}
+                              disabled={seat.status === 'occupied'}
+                              className={`w-5 h-5 sm:w-6 sm:h-6 rounded-sm border text-[8px] font-medium transition-all ${getSeatStyle(seat)}`}
+                              whileHover={seat.status !== 'occupied' ? { scale: 1.1 } : {}}
+                              whileTap={seat.status !== 'occupied' ? { scale: 0.95 } : {}}
+                              title={`${seat.id} - ${seat.price} MAD`}
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                    
+                    {/* Row Label Right */}
+                    <span className="w-6 text-center text-gray-400 text-sm font-medium">
+                      {row[0]?.row}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Bottom Legend */}
+              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 bg-gray-400 border border-gray-500 rounded-sm" />
+                    <span className="text-gray-600 text-sm">Regular Seats</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-5 bg-gradient-to-b from-gray-700 to-gray-800 border border-gray-600 rounded-lg" />
+                    <span className="text-gray-600 text-sm">Love Box</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 bg-gradient-to-b from-gray-600 to-gray-700 border border-gray-500 rounded-sm flex items-center justify-center">
+                      <span className="text-[8px] text-white">VIP</span>
+                    </div>
+                    <span className="text-gray-600 text-sm">VIP</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-500 text-sm">TIME LEFT</span>
+                  <span className={`text-xl font-bold ${timeLeft < 60 ? 'text-red-500' : 'text-green-500'}`}>
+                    {formatTime(timeLeft)}
+                  </span>
                 </div>
               </div>
-            </motion.div>
-          )}
+            </div>
 
-          {/* Confirm Button */}
-          <motion.button
-            onClick={() => selectedSeats.length > 0 && setShowConfirmation(true)}
-            disabled={selectedSeats.length === 0}
-            className={`w-full py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-2 transition-all ${
-              selectedSeats.length > 0 
-                ? 'bg-white text-black hover:bg-white/90 shadow-lg' 
-                : 'bg-white/10 text-white/30 cursor-not-allowed'
-            }`}
-            whileHover={selectedSeats.length > 0 ? { scale: 1.02 } : {}}
-            whileTap={selectedSeats.length > 0 ? { scale: 0.98 } : {}}
-          >
-            <Armchair className="w-5 h-5" />
-            {selectedSeats.length > 0 
-              ? `Confirm ${selectedSeats.length} Seat${selectedSeats.length > 1 ? 's' : ''} - ${totalPrice} MAD`
-              : 'Select Your Seats'
-            }
-          </motion.button>
+            {/* Right Sidebar */}
+            <div className="hidden lg:flex w-80 border-l border-gray-200 flex-col bg-white p-6">
+              {/* Movie Poster */}
+              {moviePoster && (
+                <div className="relative mb-6">
+                  <img 
+                    src={moviePoster} 
+                    alt={movieTitle}
+                    className="w-full h-64 object-cover rounded-lg shadow-lg"
+                  />
+                  <button className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-lg opacity-0 hover:opacity-100 transition-opacity">
+                    <div className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center">
+                      <Play className="w-8 h-8 text-white fill-white ml-1" />
+                    </div>
+                  </button>
+                  <p className="text-center text-blue-500 text-sm mt-2 cursor-pointer hover:underline">
+                    WATCH TRAILER
+                  </p>
+                </div>
+              )}
+              
+              {/* Your Seats Summary */}
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Your Seats</h3>
+                
+                {selectedSeats.length === 0 ? (
+                  <p className="text-gray-400 text-sm">No seats selected</p>
+                ) : (
+                  <div className="space-y-3">
+                    {regularSeats.length > 0 && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-700">Regular</span>
+                        <div className="flex items-center gap-4">
+                          <span className="text-gray-500">{regularSeats.length}</span>
+                          <span className="font-semibold text-gray-800">{regularSeats.reduce((s, seat) => s + seat.price, 0)} MAD</span>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {loveBoxSeats.length > 0 && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-700">Love Box</span>
+                        <div className="flex items-center gap-4">
+                          <span className="text-gray-500">{loveBoxSeats.length}</span>
+                          <span className="font-semibold text-gray-800">{loveBoxSeats.reduce((s, seat) => s + seat.price, 0)} MAD</span>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {vipSeats.length > 0 && (
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-700">VIP</span>
+                        <div className="flex items-center gap-4">
+                          <span className="text-gray-500">{vipSeats.length}</span>
+                          <span className="font-semibold text-gray-800">{vipSeats.reduce((s, seat) => s + seat.price, 0)} MAD</span>
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="border-t border-gray-200 pt-3 mt-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-red-500 font-semibold">TOTAL</span>
+                        <span className="text-2xl font-bold text-gray-900">{totalPrice} MAD</span>
+                      </div>
+                    </div>
+                    
+                    {/* Selected seats list */}
+                    <div className="pt-2">
+                      <p className="text-gray-400 text-xs mb-2">Selected: {selectedSeats.map(s => s.id).join(', ')}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              {/* Add to Cart Button */}
+              <motion.button
+                onClick={() => selectedSeats.length > 0 && setShowConfirmation(true)}
+                disabled={selectedSeats.length === 0}
+                className={`w-full py-4 rounded-lg font-semibold text-lg transition-all ${
+                  selectedSeats.length > 0 
+                    ? 'bg-red-500 text-white hover:bg-red-600 shadow-lg' 
+                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                }`}
+                whileHover={selectedSeats.length > 0 ? { scale: 1.02 } : {}}
+                whileTap={selectedSeats.length > 0 ? { scale: 0.98 } : {}}
+              >
+                Add to cart
+              </motion.button>
+            </div>
+          </div>
+          
+          {/* Mobile Bottom Bar */}
+          <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <p className="text-gray-500 text-sm">{selectedSeats.length} seat(s) selected</p>
+                <p className="text-xl font-bold text-gray-900">{totalPrice} MAD</p>
+              </div>
+              <span className={`font-bold ${timeLeft < 60 ? 'text-red-500' : 'text-green-500'}`}>
+                {formatTime(timeLeft)}
+              </span>
+            </div>
+            <motion.button
+              onClick={() => selectedSeats.length > 0 && setShowConfirmation(true)}
+              disabled={selectedSeats.length === 0}
+              className={`w-full py-3 rounded-lg font-semibold transition-all ${
+                selectedSeats.length > 0 
+                  ? 'bg-red-500 text-white hover:bg-red-600' 
+                  : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              }`}
+            >
+              Add to cart
+            </motion.button>
+          </div>
         </div>
 
         {/* Booking Confirmation Modal */}
@@ -312,6 +543,6 @@ export function SeatSelection({ isOpen, onClose, movieTitle, showtime, date }: S
           confirmationNumber={confirmationNumber}
         />
       </motion.div>
-    </motion.div>
+    </AnimatePresence>
   );
 }

@@ -271,6 +271,11 @@ export function MovieDetailModal({
           movieTitle={movie.title}
           showtime={selectedTime || ''}
           date={`${availableDates[selectedDateIndex]?.label}, ${availableDates[selectedDateIndex]?.day} ${availableDates[selectedDateIndex]?.month}`}
+          moviePoster={movie.image}
+          movieRating={movie.rating.toString()}
+          movieDuration={movie.duration}
+          movieDescription={movie.description}
+          theatreName="Sahara Cinema"
         />
       </DialogContent>
     </Dialog>;
