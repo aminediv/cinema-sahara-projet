@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Ticket, Plus, MapPin, Navigation, ChevronDown } from 'lucide-react';
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import imaxLogo from '@/assets/imax-logo.png';
 import fourDxLogo from '@/assets/4dx-logo.png';
 import movieLogo from '@/assets/mission-impossible-logo.png';
@@ -15,6 +16,7 @@ const featuredMovie = {
 
 export function CinemaHero() {
   const { t, language } = useLanguage();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Get translated movies based on current language
@@ -66,7 +68,10 @@ export function CinemaHero() {
               <Ticket className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:scale-110" />
               {t('hero.bookNow')}
             </button>
-            <button className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-background/20 backdrop-blur-sm border border-border/30 flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300">
+            <button 
+              onClick={() => navigate('/auth')}
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-background/20 backdrop-blur-sm border border-border/30 flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
+            >
               <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
