@@ -116,12 +116,15 @@ export function BookingConfirmation({
               ))}
             </div>
             
-            <div className="text-xs text-white/50">
-              {selectedSeats.filter(s => s.price === 120).length > 0 && (
-                <span>VIP: {selectedSeats.filter(s => s.price === 120).length} × 120 MAD</span>
-              )}
+            <div className="text-xs text-white/50 flex flex-wrap gap-3">
               {selectedSeats.filter(s => s.price === 80).length > 0 && (
-                <span className="ml-3">Standard: {selectedSeats.filter(s => s.price === 80).length} × 80 MAD</span>
+                <span>Regular: {selectedSeats.filter(s => s.price === 80).length} × 80 MAD</span>
+              )}
+              {selectedSeats.filter(s => s.price === 150).length > 0 && (
+                <span>VIP: {selectedSeats.filter(s => s.price === 150).length} × 150 MAD</span>
+              )}
+              {selectedSeats.filter(s => s.price === 200).length > 0 && (
+                <span>Love Box: {selectedSeats.filter(s => s.price === 200).length} × 200 MAD</span>
               )}
             </div>
           </div>
