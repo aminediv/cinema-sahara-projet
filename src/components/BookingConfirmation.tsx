@@ -48,7 +48,7 @@ export function BookingConfirmation({
       
       {/* Content */}
       <motion.div 
-        className="relative w-full max-w-lg bg-gradient-to-b from-zinc-900 to-black rounded-2xl border border-white/10 shadow-2xl overflow-hidden"
+        className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-gradient-to-b from-zinc-900 to-black rounded-2xl border border-white/10 shadow-2xl"
         initial={{ scale: 0.9, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         transition={{ type: 'spring', duration: 0.5 }}

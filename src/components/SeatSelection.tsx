@@ -481,7 +481,7 @@ export function SeatSelection({
                 whileHover={selectedSeats.length > 0 ? { scale: 1.02 } : {}}
                 whileTap={selectedSeats.length > 0 ? { scale: 0.98 } : {}}
               >
-                Add to cart
+                Confirm Seat
               </motion.button>
             </div>
           </div>
@@ -506,7 +506,7 @@ export function SeatSelection({
                   : 'bg-gray-200 text-gray-400 cursor-not-allowed'
               }`}
             >
-              Add to cart
+              Confirm Seat
             </motion.button>
           </div>
         </div>
