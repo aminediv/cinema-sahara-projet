@@ -1,8 +1,8 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Play, Clock, Calendar, Star, Ticket, X, ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react';
+import { Play, Clock, Calendar, Star, Ticket, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState, useMemo } from 'react';
-import { SeatSelection } from './SeatSelection';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export interface MovieDetails {
@@ -36,9 +36,9 @@ export function MovieDetailModal({
   onClose
 }: MovieDetailModalProps) {
   const { t, language } = useLanguage();
+  const navigate = useNavigate();
   const [selectedDateIndex, setSelectedDateIndex] = useState(0);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [showSeatSelection, setShowSeatSelection] = useState(false);
   
   // Generate dates for the next 14 days with translations
   const availableDates = useMemo(() => {
@@ -236,7 +236,23 @@ export function MovieDetailModal({
             {/* Book Now Button */}
             <div className="mt-5 flex gap-3">
               <motion.button 
-                onClick={() => selectedTime && setShowSeatSelection(true)}
+                onClick={() => {
+                  if (selectedTime) {
+                    navigate('/select-seats', {
+                      state: {
+                        movieTitle: movie.title,
+                        showtime: selectedTime,
+                        date: `${availableDates[selectedDateIndex]?.label}, ${availableDates[selectedDateIndex]?.day} ${availableDates[selectedDateIndex]?.month}`,
+                        moviePoster: movie.image,
+                        movieRating: movie.rating.toString(),
+                        movieDuration: movie.duration,
+                        movieDescription: movie.description,
+                        theatreName: 'Sahara Cinema'
+                      }
+                    });
+                    onClose();
+                  }
+                }}
                 disabled={!selectedTime}
                 className={`flex-1 py-3.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 transition-colors ${
                   selectedTime 
@@ -263,20 +279,6 @@ export function MovieDetailModal({
             </div>
           </div>
         </div>
-
-        {/* Seat Selection Modal */}
-        <SeatSelection 
-          isOpen={showSeatSelection}
-          onClose={() => setShowSeatSelection(false)}
-          movieTitle={movie.title}
-          showtime={selectedTime || ''}
-          date={`${availableDates[selectedDateIndex]?.label}, ${availableDates[selectedDateIndex]?.day} ${availableDates[selectedDateIndex]?.month}`}
-          moviePoster={movie.image}
-          movieRating={movie.rating.toString()}
-          movieDuration={movie.duration}
-          movieDescription={movie.description}
-          theatreName="Sahara Cinema"
-        />
       </DialogContent>
     </Dialog>;
 }
